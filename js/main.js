@@ -161,24 +161,31 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = `Image of the ${restaurant.name} restaurant`;
+  image.tabIndex = "0";
   li.append(image);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
+  name.tabIndex = "0";
+  name.type = "banner";
   li.append(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
+  neighborhood.tabIndex = "0";
+  neighborhood.type = "banner";
   li.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
+  address.type = "banner";
   li.append(address);
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  more.tabIndex = "2";
+  more.tabIndex = "0";
   more.type = "link";
   li.append(more)
 
@@ -213,11 +220,12 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 } */
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("/serviceWorker.js").then(function () {
-      console.log("Service worker registered");
-    })
-    .catch(function () {
-      console.log(`Registration failed`)
-    })
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/serviceWorker.js").then(() => {
+        console.log("Service worker registered");
+      }, () => {
+        console.log("Service worker registration failed")
+      })
+  })
 }
